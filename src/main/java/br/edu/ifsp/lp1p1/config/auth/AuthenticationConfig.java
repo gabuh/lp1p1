@@ -13,6 +13,10 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.servlet.util.matcher.MvcRequestMatcher;
+import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
+
+import static org.springframework.boot.autoconfigure.security.servlet.PathRequest.toH2Console;
 
 @Configuration
 @EnableWebSecurity
@@ -23,17 +27,23 @@ public class AuthenticationConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        return http
-                .csrf().disable()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and()
-                .authorizeHttpRequests()
-                .requestMatchers(HttpMethod.POST, "/api/v1/login").permitAll()
-                .requestMatchers(HttpMethod.GET, "/h2-console").permitAll()
-                .requestMatchers(HttpMethod.GET, "/api/v1/books").permitAll()
-                .anyRequest().authenticated()
-                .and().addFilterBefore(filterToken, UsernamePasswordAuthenticationFilter.class)
-                .build();
+        http
+                .authorizeHttpRequests(
+                        auth -> auth
+                                .requestMatchers(HttpMethod.POST, "/api/v1/login").permitAll()
+                                .requestMatchers(toH2Console()).permitAll()
+                                .requestMatchers(HttpMethod.GET, "/api/v1/books").permitAll()
+                                .anyRequest().authenticated()
+                )
+                .headers(
+                        headers -> headers.frameOptions().disable()
+                )
+                .csrf(
+                        csrf -> csrf
+                                .ignoringRequestMatchers(toH2Console())
+                );
+
+        return http.build();
     }
 
     @Bean

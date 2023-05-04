@@ -39,7 +39,7 @@ public class Seeding implements CommandLineRunner {
                 .cpf("123.123.123-12")
                 .address("address")
                 .email("email")
-                .password("password").build();
+                .password("$2a$12$XUhben5hiPAykE3ueATgKeAJeN7iobGb0NyqtDsi4RGbhE5sxbV1S").build();
 
         Loan loan1 = new Loan(
                 null,

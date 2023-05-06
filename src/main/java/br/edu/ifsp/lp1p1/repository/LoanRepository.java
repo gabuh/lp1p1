@@ -17,4 +17,6 @@ public interface LoanRepository extends JpaRepository<Loan, Long> {
 
     List<Loan> findAllByBook(Book book);
 
+    List<Loan> findAllByClientId(Long clientId);
+
 }

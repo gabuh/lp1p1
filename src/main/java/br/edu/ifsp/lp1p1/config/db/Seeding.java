@@ -3,10 +3,12 @@ package br.edu.ifsp.lp1p1.config.db;
 import br.edu.ifsp.lp1p1.model.Book;
 import br.edu.ifsp.lp1p1.model.Loan;
 import br.edu.ifsp.lp1p1.model.User;
+import br.edu.ifsp.lp1p1.model.enums.user.UserRoles;
 import br.edu.ifsp.lp1p1.repository.BookRepository;
 import br.edu.ifsp.lp1p1.repository.LoanRepository;
 import br.edu.ifsp.lp1p1.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
 
@@ -15,6 +17,7 @@ import java.util.List;
 
 @Configuration
 @RequiredArgsConstructor
+@Log4j2
 public class Seeding implements CommandLineRunner {
 
     private final BookRepository bookRepository;
@@ -24,6 +27,7 @@ public class Seeding implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
+
         Book book1 = new Book(
                 null,
                 "Moby Dick",
@@ -39,7 +43,8 @@ public class Seeding implements CommandLineRunner {
                 .cpf("123.123.123-12")
                 .address("address")
                 .email("email")
-                .password("$2a$12$XUhben5hiPAykE3ueATgKeAJeN7iobGb0NyqtDsi4RGbhE5sxbV1S").build();
+                .password("$2a$12$XUhben5hiPAykE3ueATgKeAJeN7iobGb0NyqtDsi4RGbhE5sxbV1S")
+                .role(UserRoles.ADMIN).build();
 
         Loan loan1 = new Loan(
                 null,

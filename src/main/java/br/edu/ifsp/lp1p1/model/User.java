@@ -1,5 +1,6 @@
 package br.edu.ifsp.lp1p1.model;
 
+import br.edu.ifsp.lp1p1.model.enums.user.UserRoles;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
@@ -33,14 +34,17 @@ public class User implements UserDetails {
 
     private String password;
 
+    @Enumerated(EnumType.STRING)
+    private UserRoles role;
+
     @Transient
     @JsonIgnore
-    @OneToMany(targetEntity = Loan.class)
+    @OneToMany(targetEntity = Loan.class, mappedBy = "client", cascade = CascadeType.ALL, orphanRemoval = true)
     private final List<Loan> clientLoans = new ArrayList<>();
 
     @Transient
     @JsonIgnore
-    @OneToMany(targetEntity = Loan.class)
+    @OneToMany(targetEntity = Loan.class, mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private final List<Loan> userLoans = new ArrayList<>();
 
     public User() {
@@ -49,7 +53,7 @@ public class User implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority("ROLE_USER"));
+        return List.of(new SimpleGrantedAuthority(role.toString()));
     }
 
     @Override

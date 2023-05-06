@@ -2,7 +2,7 @@ package br.edu.ifsp.lp1p1.controller;
 
 import br.edu.ifsp.lp1p1.dto.book.BookResponseDTO;
 import br.edu.ifsp.lp1p1.dto.loan.LoanRequestDTO;
-import br.edu.ifsp.lp1p1.mapper.user.UserMapper;
+import br.edu.ifsp.lp1p1.mapper.book.BookResponseDTOMapper;
 import br.edu.ifsp.lp1p1.model.Book;
 import br.edu.ifsp.lp1p1.model.Loan;
 import br.edu.ifsp.lp1p1.model.User;
@@ -53,7 +53,7 @@ public class BookController {
 
     @PostMapping("/{id}/loan")
     @Transactional
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('EMPLOYEE')")
     public ResponseEntity<Void> createLoan(@RequestBody LoanRequestDTO loanRequestDTO,
                                            @PathVariable Long id,
                                            @AuthenticationPrincipal UserDetails userDetails){
@@ -77,5 +77,28 @@ public class BookController {
 
         this.loanService.save(loan);
         return new ResponseEntity<>(HttpStatus.CREATED);
+    }
+
+    @GetMapping("/{id}/return")
+    @Transactional
+    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('EMPLOYEE')")
+    public ResponseEntity<BookResponseDTO> returnBook(@PathVariable Long id,
+                                                      @RequestParam(required = true) Long clientId) {
+        Book book = this.bookService.findById(id);
+
+        List<Loan> loans = this.loanService.findAllByBook(book);
+        if(loans.size() <= 0){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        for(Loan l : loans){
+            if(l.getClient().getId() == clientId){
+                this.loanService.deleteById(l.getId());
+            }
+        }
+
+        book.setNumberOfCopiesAvailable(book.getNumberOfCopiesAvailable()+1);
+        this.bookService.save(book);
+        BookResponseDTO bookResponseDTO = BookResponseDTOMapper.INSTANCE.toBookResponseDTO(book);
+        return ResponseEntity.ok(bookResponseDTO);
     }
 }

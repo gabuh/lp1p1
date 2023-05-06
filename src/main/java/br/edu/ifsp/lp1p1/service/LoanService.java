@@ -10,6 +10,8 @@ import br.edu.ifsp.lp1p1.repository.LoanRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class LoanService {
@@ -39,5 +41,9 @@ public class LoanService {
 
     public void save(Loan loan){
         this.loanRepository.save(loan);
+    }
+
+    public List<Loan> findAllByBook(Book book){
+        return this.loanRepository.findAllByBook(book);
     }
 }

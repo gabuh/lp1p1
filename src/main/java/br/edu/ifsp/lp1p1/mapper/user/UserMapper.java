@@ -1,6 +1,7 @@
 package br.edu.ifsp.lp1p1.mapper.user;
 
 import br.edu.ifsp.lp1p1.dto.user.UserRequestDTO;
+import br.edu.ifsp.lp1p1.dto.user.UserResponseDTO;
 import br.edu.ifsp.lp1p1.model.User;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -13,4 +14,7 @@ public abstract class UserMapper {
 
     @Mapping(target = "id", ignore = true)
     public abstract User toUser(UserRequestDTO userRequestDTO);
+
+    @Mapping(target = "id", ignore = true)
+    public abstract User toUser(UserResponseDTO userResponseDTO);
 }

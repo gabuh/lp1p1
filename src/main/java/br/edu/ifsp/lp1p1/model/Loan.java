@@ -2,10 +2,7 @@ package br.edu.ifsp.lp1p1.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.Instant;
 
@@ -15,6 +12,7 @@ import java.time.Instant;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class Loan {
 
     @Id

@@ -35,7 +35,7 @@ public class Seeding implements CommandLineRunner {
                 "Harper and Brothers",
                 "1851",
                 10,
-                5);
+                10);
 
         User user1 = new User().builder()
                 .id(null)

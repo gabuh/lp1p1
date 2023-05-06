@@ -1,7 +1,10 @@
 package br.edu.ifsp.lp1p1.service;
 
 
+import br.edu.ifsp.lp1p1.dto.loan.LoanRequestDTO;
+import br.edu.ifsp.lp1p1.mapper.loan.LoanMapper;
 import br.edu.ifsp.lp1p1.model.Book;
+import br.edu.ifsp.lp1p1.model.Loan;
 import br.edu.ifsp.lp1p1.model.User;
 import br.edu.ifsp.lp1p1.repository.LoanRepository;
 import lombok.RequiredArgsConstructor;
@@ -27,5 +30,14 @@ public class LoanService {
 
     public void deleteAllByClient(User user){
         this.loanRepository.deleteAllByClient(user);
+    }
+
+    public void save(LoanRequestDTO loanRequestDTO){
+        Loan loan = LoanMapper.INSTANCE.toLoan(loanRequestDTO);
+        this.loanRepository.save(loan);
+    }
+
+    public void save(Loan loan){
+        this.loanRepository.save(loan);
     }
 }

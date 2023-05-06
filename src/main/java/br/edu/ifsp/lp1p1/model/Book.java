@@ -31,7 +31,7 @@ public class Book {
 
     @Transient
     @JsonIgnore
-    @OneToMany(mappedBy = "book")
+    @OneToMany
     private final List<Loan> loans = new ArrayList<>();
 
 }

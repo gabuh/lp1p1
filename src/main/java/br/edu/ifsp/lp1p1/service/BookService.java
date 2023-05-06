@@ -1,6 +1,7 @@
 package br.edu.ifsp.lp1p1.service;
 
 
+import br.edu.ifsp.lp1p1.dto.book.BookRequestDTO;
 import br.edu.ifsp.lp1p1.dto.book.BookResponseDTO;
 import br.edu.ifsp.lp1p1.exception.book.BookNotFoundException;
 import br.edu.ifsp.lp1p1.mapper.book.BookMapper;
@@ -23,8 +24,17 @@ public class BookService {
                 .orElseThrow(() -> new BookNotFoundException(id));
     }
 
-    public void save(BookResponseDTO bookResponseDTO){
-        Book book = BookMapper.INSTANCE.toBook(bookResponseDTO);
+    public void save(BookRequestDTO bookRequestDTO){
+        Book book = BookMapper.INSTANCE.toBook(bookRequestDTO);
+        this.bookRepository.save(book);
+    }
+
+    public void save(Book book){
+        this.bookRepository.save(book);
+    }
+
+    public void update(BookRequestDTO bookRequestDTO){
+        Book book = BookMapper.INSTANCE.toBook(bookRequestDTO);
         this.bookRepository.save(book);
     }
 

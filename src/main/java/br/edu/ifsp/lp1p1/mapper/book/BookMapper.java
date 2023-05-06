@@ -1,5 +1,6 @@
 package br.edu.ifsp.lp1p1.mapper.book;
 
+import br.edu.ifsp.lp1p1.dto.book.BookRequestDTO;
 import br.edu.ifsp.lp1p1.dto.book.BookResponseDTO;
 import br.edu.ifsp.lp1p1.model.Book;
 import org.mapstruct.Mapper;
@@ -13,5 +14,9 @@ public abstract class BookMapper {
 
     @Mapping(target = "loans", ignore = true)
     public abstract Book toBook(BookResponseDTO bookResponseDTO);
+
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "loans", ignore = true)
+    public abstract Book toBook(BookRequestDTO bookRequestDTO);
 
 }

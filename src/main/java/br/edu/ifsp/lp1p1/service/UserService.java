@@ -47,4 +47,13 @@ public class UserService {
         user.setPassword(hash);
         this.userRepository.save(user);
     }
+
+    public void save(User user){
+        this.userRepository.save(user);
+    }
+
+    public User findByEmail(String email){
+        return this.userRepository.findByEmail(email);
+//        return UserResponseDTOMapper.INSTANCE.toUserResponseDTO(user);
+    }
 }

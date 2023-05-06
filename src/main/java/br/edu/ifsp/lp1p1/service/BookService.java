@@ -7,7 +7,6 @@ import br.edu.ifsp.lp1p1.mapper.book.BookMapper;
 import br.edu.ifsp.lp1p1.mapper.book.BookResponseDTOMapper;
 import br.edu.ifsp.lp1p1.model.Book;
 import br.edu.ifsp.lp1p1.repository.BookRepository;
-import br.edu.ifsp.lp1p1.repository.LoanRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -18,7 +17,6 @@ import java.util.List;
 public class BookService {
 
     private final BookRepository bookRepository;
-    private final LoanRepository loanRepository;
 
     public Book findById(Long id){
         return this.bookRepository.findById(id)
@@ -32,7 +30,8 @@ public class BookService {
 
     public List<BookResponseDTO> findAll(){
         List<Book> books = this.bookRepository.findAll();
-        List<BookResponseDTO> bookResponseDTOs = books.stream().map(BookResponseDTOMapper.INSTANCE::toBookResponseDTO).toList();
+        List<BookResponseDTO> bookResponseDTOs = books.stream()
+                .map(BookResponseDTOMapper.INSTANCE::toBookResponseDTO).toList();
         return bookResponseDTOs;
     }
 

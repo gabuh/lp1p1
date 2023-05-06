@@ -32,7 +32,7 @@ public class AuthenticationConfig {
                         auth -> auth
                                 .requestMatchers(HttpMethod.POST, "/api/v1/login").permitAll()
                                 .requestMatchers(toH2Console()).permitAll()
-                                .requestMatchers(HttpMethod.GET, "/api/v1/books").permitAll()
+                                .requestMatchers(HttpMethod.POST, "api/v1/users").permitAll()
                                 .anyRequest().authenticated()
                 )
                 .headers(

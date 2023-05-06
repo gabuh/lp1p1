@@ -2,6 +2,7 @@ package br.edu.ifsp.lp1p1.service;
 
 
 import br.edu.ifsp.lp1p1.model.Book;
+import br.edu.ifsp.lp1p1.model.User;
 import br.edu.ifsp.lp1p1.repository.LoanRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -18,5 +19,13 @@ public class LoanService {
 
     public void deleteAllByBook(Book book){
         this.loanRepository.deleteAllByBook(book);
+    }
+
+    public void deleteAllByUser(User user){
+        this.loanRepository.deleteAllByUser(user);
+    }
+
+    public void deleteAllByClient(User user){
+        this.loanRepository.deleteAllByClient(user);
     }
 }

@@ -2,6 +2,7 @@ package br.edu.ifsp.lp1p1.service;
 
 
 import br.edu.ifsp.lp1p1.dto.loan.LoanRequestDTO;
+import br.edu.ifsp.lp1p1.dto.loan.LoanResponseDTO;
 import br.edu.ifsp.lp1p1.mapper.loan.LoanMapper;
 import br.edu.ifsp.lp1p1.model.Book;
 import br.edu.ifsp.lp1p1.model.Loan;
@@ -10,6 +11,7 @@ import br.edu.ifsp.lp1p1.repository.LoanRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
 import java.util.List;
 
 @Service
@@ -50,4 +52,19 @@ public class LoanService {
     public List<Loan> findAllByClientId(Long id){
         return this.loanRepository.findAllByClientId(id);
     }
+
+    public List<LoanResponseDTO> findAll(){
+        List<Loan> loans = this.loanRepository.findAll();
+        return loans.stream().map(Loan::toLoanResponseDTO).toList();
+    }
+
+    public List<LoanResponseDTO> findAllByClient(User client){
+        List<Loan> loans = this.loanRepository.findAllByClient(client);
+        return loans.stream().map(Loan::toLoanResponseDTO).toList();
+    }
+
+//    public List<LoanResponseDTO> findAllByDate(Instant date){
+//        List<Loan> loans = this.loanRepository.findAllByLoanDate(date);
+//        return loans.stream().map(Loan::toLoanResponseDTO).toList();
+//    }
 }

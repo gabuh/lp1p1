@@ -1,5 +1,6 @@
 package br.edu.ifsp.lp1p1.model;
 
+import br.edu.ifsp.lp1p1.dto.loan.LoanResponseDTO;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.*;
@@ -35,4 +36,15 @@ public class Loan {
 
     @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd'T'HH:mm:ss'Z'", timezone="GMT")
     private Instant returnDate;
+
+    public static LoanResponseDTO toLoanResponseDTO(Loan loan){
+        return new LoanResponseDTO(
+                loan.getId(),
+                loan.getBook(),
+                loan.getClient().getId(),
+                loan.getUser().getId(),
+                loan.getLoanDate(),
+                loan.getReturnDate()
+        );
+    }
 }

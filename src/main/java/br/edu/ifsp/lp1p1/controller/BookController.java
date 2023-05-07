@@ -42,6 +42,12 @@ public class BookController {
         return ResponseEntity.ok(books);
     }
 
+    @GetMapping("/find")
+    public ResponseEntity<List<BookResponseDTO>> findAllByName(@RequestParam(required = true) String title){
+        List<BookResponseDTO> bookResponseDTOs = this.bookService.findAllByTitle(title);
+        return ResponseEntity.ok(bookResponseDTOs);
+    }
+
     @DeleteMapping("/{id}")
     @Transactional
     @PreAuthorize("hasAuthority('ADMIN')")

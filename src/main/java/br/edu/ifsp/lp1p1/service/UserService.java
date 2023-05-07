@@ -6,6 +6,7 @@ import br.edu.ifsp.lp1p1.exception.user.UserNotFoundException;
 import br.edu.ifsp.lp1p1.mapper.user.UserMapper;
 import br.edu.ifsp.lp1p1.mapper.user.UserResponseDTOMapper;
 import br.edu.ifsp.lp1p1.model.User;
+import br.edu.ifsp.lp1p1.model.enums.user.UserRoles;
 import br.edu.ifsp.lp1p1.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -55,5 +56,15 @@ public class UserService {
     public User findByEmail(String email){
         return this.userRepository.findByEmail(email);
 //        return UserResponseDTOMapper.INSTANCE.toUserResponseDTO(user);
+    }
+
+    public List<UserResponseDTO> findAllByRole(UserRoles role){
+        List<User> users = this.userRepository.findAllByRole(role);
+        return users.stream().map(UserResponseDTOMapper.INSTANCE::toUserResponseDTO).toList();
+    }
+
+    public List<UserResponseDTO> findAllByName(String name){
+        List<User> users = this.userRepository.findAllByName(name);
+        return users.stream().map(UserResponseDTOMapper.INSTANCE::toUserResponseDTO).toList();
     }
 }

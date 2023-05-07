@@ -1,6 +1,7 @@
 package br.edu.ifsp.lp1p1.mapper.loan;
 
 import br.edu.ifsp.lp1p1.dto.loan.LoanRequestDTO;
+import br.edu.ifsp.lp1p1.dto.loan.LoanResponseDTO;
 import br.edu.ifsp.lp1p1.model.Loan;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -16,4 +17,6 @@ public abstract class LoanMapper {
     @Mapping(target = "user", ignore = true)
     @Mapping(target = "loanDate", ignore = true)
     public abstract Loan toLoan(LoanRequestDTO loanRequestDTO);
+
+    public abstract Loan toLoan(LoanResponseDTO loanResponseDTO);
 }

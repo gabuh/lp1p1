@@ -49,4 +49,9 @@ public class BookService {
         this.bookRepository.deleteById(findById(id).getId());
     }
 
+    public List<BookResponseDTO> findAllByTitle(String title){
+        List<Book> books = this.bookRepository.findAllByTitle(title);
+        return books.stream().map(BookResponseDTOMapper.INSTANCE::toBookResponseDTO).toList();
+    }
+
 }

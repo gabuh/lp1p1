@@ -21,7 +21,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @RestController
 @RequiredArgsConstructor
@@ -77,7 +79,6 @@ public class UserController {
     }
 
     @GetMapping("/users")
-    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<List<UserResponseDTO>> findAll(){
         List<UserResponseDTO> users = this.userService.findAll();
         return ResponseEntity.ok(users);
@@ -85,9 +86,30 @@ public class UserController {
 
     @GetMapping("/users/find")
     @PreAuthorize("hasAuthority('ADMIN')")
-    public ResponseEntity<UserResponseDTO> findByCpf(@RequestParam String cpf){
-        UserResponseDTO user = this.userService.findByCpf(cpf);
-        return ResponseEntity.ok(user);
+    public ResponseEntity<?> findByParam(@RequestParam(required = false) String cpf,
+                                                     @RequestParam(required = false) String name){
+        if(cpf != null) {
+            UserResponseDTO user = this.userService.findByCpf(cpf);
+            return ResponseEntity.ok(user);
+        }
+
+        List<UserResponseDTO> userResponseDTOs = this.userService.findAllByName(name);
+//        userResponseDTOs.removeIf(u -> !Objects.equals(u.name(), name));
+
+        return ResponseEntity.ok(userResponseDTOs);
+    }
+
+    @GetMapping("/users/clients")
+    public ResponseEntity<List<UserResponseDTO>> findAllClients(){
+        List<UserResponseDTO> userResponseDTOs = this.userService.findAllByRole(UserRoles.CLIENT);
+        return ResponseEntity.ok(userResponseDTOs);
+    }
+
+    @GetMapping("/users/employees")
+    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('EMPLOYEE')")
+    public ResponseEntity<List<UserResponseDTO>> findAllEmployees(){
+        List<UserResponseDTO> userResponseDTOs = this.userService.findAllByRole(UserRoles.EMPLOYEE);
+        return ResponseEntity.ok(userResponseDTOs);
     }
 
 }

@@ -33,6 +33,7 @@ public class AuthenticationConfig {
                                 .requestMatchers(HttpMethod.POST, "/api/v1/login").permitAll()
                                 .requestMatchers(toH2Console()).permitAll()
                                 .requestMatchers(HttpMethod.POST, "api/v1/users").permitAll()
+                                .requestMatchers(HttpMethod.POST, "/api/v1/users/client").permitAll()
                                 .anyRequest().authenticated()
                 )
                 .headers(

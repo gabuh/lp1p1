@@ -1,5 +1,6 @@
 package br.edu.ifsp.lp1p1.mapper.user;
 
+import br.edu.ifsp.lp1p1.dto.user.ClientRequestDTO;
 import br.edu.ifsp.lp1p1.dto.user.UserRequestDTO;
 import br.edu.ifsp.lp1p1.dto.user.UserResponseDTO;
 import br.edu.ifsp.lp1p1.model.User;
@@ -17,4 +18,8 @@ public abstract class UserMapper {
 
     @Mapping(target = "id", ignore = true)
     public abstract User toUser(UserResponseDTO userResponseDTO);
+
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "role", ignore = true)
+    public abstract User toUser(ClientRequestDTO clientRequestDTO);
 }

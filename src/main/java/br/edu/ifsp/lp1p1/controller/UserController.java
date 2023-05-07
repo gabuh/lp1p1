@@ -1,10 +1,13 @@
 package br.edu.ifsp.lp1p1.controller;
 
+import br.edu.ifsp.lp1p1.dto.user.ClientRequestDTO;
 import br.edu.ifsp.lp1p1.dto.user.UserLoginDTO;
 import br.edu.ifsp.lp1p1.dto.user.UserRequestDTO;
 import br.edu.ifsp.lp1p1.dto.user.UserResponseDTO;
 import br.edu.ifsp.lp1p1.mapper.user.UserMapper;
+import br.edu.ifsp.lp1p1.mapper.user.UserRequestDTOMapper;
 import br.edu.ifsp.lp1p1.model.User;
+import br.edu.ifsp.lp1p1.model.enums.user.UserRoles;
 import br.edu.ifsp.lp1p1.service.LoanService;
 import br.edu.ifsp.lp1p1.service.TokenService;
 import br.edu.ifsp.lp1p1.service.UserService;
@@ -47,7 +50,17 @@ public class UserController {
     }
 
     @PostMapping("/users")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<UserResponseDTO> register(@RequestBody UserRequestDTO userRequestDTO){
+        this.userService.save(userRequestDTO);
+        return new ResponseEntity<>(HttpStatus.CREATED);
+    }
+
+    @PostMapping("/users/client")
+    public ResponseEntity<UserResponseDTO> registerClient(@RequestBody ClientRequestDTO clientRequestDTO){
+        User user = UserMapper.INSTANCE.toUser(clientRequestDTO);
+        user.setRole(UserRoles.CLIENT);
+        UserRequestDTO userRequestDTO = UserRequestDTOMapper.INSTANCE.toUserRequestDTO(user);
         this.userService.save(userRequestDTO);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
